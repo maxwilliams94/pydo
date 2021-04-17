@@ -1,4 +1,5 @@
 import os
+from pathlib import PurePath
 
 from pydo.config.config import default_cf_path
 from pydo.database.database_factory import DatabaseFactory
@@ -16,7 +17,7 @@ class TestSqlInit:
                                                 db_name='test_sql',
                                                 db_path='.')
         db.initialise()
-        db_full_path = os.path.join('.', 'test_sql.db')
+        db_full_path = PurePath(os.path.join('.', 'test_sql.db'))
         assert os.path.exists(db_full_path)
         assert db.complete_path == db_full_path
         assert os.path.exists(default_cf_path())

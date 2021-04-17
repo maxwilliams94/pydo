@@ -6,11 +6,8 @@ import json
 def load_config(path=None):
     if path is None:
         cf_path = default_cf_path()
-        try:
-            with open(cf_path, 'r') as f:
-                return json.load(f)
-        except FileNotFoundError:
-            raise FileNotFoundError
+        with open(cf_path, 'r') as f:
+            return json.load(f)
 
 
 def dump_config(configuration: dict, cf_path=None):
