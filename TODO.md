@@ -1,5 +1,6 @@
 # CLI
 - [ ] argparse framework
+ - `ArgumentParser.add_mutually_exclusive_group(required=False)`
 # Database
 - [ ] Database class
 - [ ] initialisation
