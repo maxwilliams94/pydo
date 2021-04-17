@@ -1,6 +1,7 @@
-from .database import Database
-import sqlite3
 from os import path
+import sqlite3
+from pathlib import PurePath
+from .database import Database
 from ..config.config import dump_config
 
 
@@ -11,12 +12,9 @@ class SqliteDatabase(Database):
         super().__init__(name, db_path, config_path)
         self.cursor = None
         self.connection = None
-
-        if self.name.endswith(SqliteDatabase.db_ext):
-            self.complete_path = path.join(self.path, self.name)
-        else:
-            self.complete_path = path.join(self.path,
-                                           self.name + SqliteDatabase.db_ext)
+        self.complete_path = PurePath(path.join(self.path, self.name))
+        if not self.name.endswith(SqliteDatabase.db_ext):
+            self.complete_path = self.complete_path.with_suffix(SqliteDatabase.db_ext)
 
     def initialise(self):
         self.load()  # Connecting to non-existent db file creates a new db file
@@ -41,6 +39,8 @@ class SqliteDatabase(Database):
 
     def close(self):
         self.connection.close()
+        self.connection = None
+        self.cursor = None
 
     def dump_config(self):
         dump_config(self.to_dict(), self.config_path)

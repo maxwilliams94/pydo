@@ -8,10 +8,7 @@ class Database(ABC):
         self.path = path
         self.connection = None
         self.complete_path = None
-        if config_path is None:
-            self.config_path = default_cf_path()
-        else:
-            self.config_path = config_path
+        self.config_path = default_cf_path() if config_path is None else config_path
 
     @abstractmethod
     def initialise(self):
