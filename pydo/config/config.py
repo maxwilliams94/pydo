@@ -1,6 +1,6 @@
-import tempfile
-import os
 import json
+from pathlib import Path
+import tempfile
 
 
 def load_config(path=None):
@@ -21,4 +21,4 @@ def dump_config(configuration: dict, cf_path=None):
 
 
 def default_cf_path():
-    return os.path.join(tempfile.gettempdir(), 'pydo.json')
+    return Path(tempfile.gettempdir()).with_name('pydo.json')

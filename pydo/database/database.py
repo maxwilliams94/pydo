@@ -20,7 +20,7 @@ class Database(ABC):
         :param config_path: path to temporary (session) configuration file
         """
         self._db_path = Path(path)
-        self._config_path = default_cf_path() if config_path is None else config_path
+        self._config_path: Path = default_cf_path() if config_path is None else Path(config_path)
 
     @property
     def path(self):

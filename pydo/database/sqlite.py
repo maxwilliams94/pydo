@@ -54,8 +54,9 @@ class SqliteDatabase(Database):
 
     def to_dict(self):
         """dictionary representation of database configuration"""
-        return {"db_name": self._db_path.name,
-                "db_path": str(self._db_path.resolve())}
+        return {"db_name": self.path.name,
+                "db_path": str(self.path.resolve()),
+                "config_path": str(self.config_path)}
 
     def commit_config(self):
         """save database configuration to itself"""
