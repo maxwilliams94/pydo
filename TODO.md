@@ -2,8 +2,8 @@
 - [ ] argparse framework
  - `ArgumentParser.add_mutually_exclusive_group(required=False)`
 # Database
-- [ ] Database class
-- [ ] initialisation
+- [X] Database class
+- [X] initialisation
 - [ ] fetch
 - [ ] save
 
@@ -17,3 +17,4 @@
 
 # Testing
 - [ ] initial pytest framework 
+- [ ] initial unittest framework

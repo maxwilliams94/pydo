@@ -2,8 +2,8 @@
 ## Databases
 ### Initialisation
 #### Sqlite
-- [ ] initialise database
-- [ ] config file created
+- [X] initialise database
+- [X] config file created
 - [ ] loading non-existent config
 - [ ] load non-existent database
 - [ ] initialise database to non-accessible path

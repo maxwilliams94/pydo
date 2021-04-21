@@ -16,10 +16,9 @@ def dump_config(configuration: dict, cf_path=None):
     try:
         with open(cf_path, 'w') as f:
             json.dump(configuration, f)
-    except FileNotFoundError as e:
+    except FileNotFoundError:
         print("Invalid configuration path")
-        exit(1)
 
 
 def default_cf_path():
-    return os.path.join(tempfile.gettempdir(), 'pydo.ini')
+    return os.path.join(tempfile.gettempdir(), 'pydo.json')

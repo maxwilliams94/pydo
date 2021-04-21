@@ -1,24 +1,27 @@
-from os import path
 import sqlite3
-from pathlib import PurePath
+from pathlib import Path
 from .database import Database
 from ..config.config import dump_config
 
 
 class SqliteDatabase(Database):
-    db_ext = '.db'
+    """
+    SQL Database
+    """
 
-    def __init__(self, name, db_path, config_path=None):
-        super().__init__(name, db_path, config_path)
-        self.cursor = None
-        self.connection = None
-        self.complete_path = PurePath(path.join(self.path, self.name))
-        if not self.name.endswith(SqliteDatabase.db_ext):
-            self.complete_path = self.complete_path.with_suffix(SqliteDatabase.db_ext)
+    def __init__(self, db_path, config_path=None):
+        super().__init__(db_path, config_path)
+        self._cursor = None
+        self._connection = None
 
     def initialise(self):
+        """
+        Initialise a new sql database at self.db_path and save configuration within itself
+        The configuration for the session is also dumped to a temporary json file
+        :return: None
+        """
         self.load()  # Connecting to non-existent db file creates a new db file
-        self.cursor.execute("""CREATE TABLE tasks (
+        self._cursor.execute("""CREATE TABLE tasks (
         id TEXT PRIMARY_KEY,
         name TEXT,
         description TEXT,
@@ -31,23 +34,29 @@ class SqliteDatabase(Database):
         self.commit_config()
 
     def load(self):
-        self.connection = sqlite3.connect(self.complete_path)
-        self.cursor = self.connection.cursor()
+        """Load self.complete_path"""
+        self._connection = sqlite3.connect(self._db_path)
+        self._cursor = self._connection.cursor()
 
     def save(self):
-        self.connection.commit()
+        """save the database to file"""
+        self._connection.commit()
 
     def close(self):
-        self.connection.close()
-        self.connection = None
-        self.cursor = None
+        """sever connection to database and reset"""
+        self._connection.close()
+        self._connection = None
+        self._cursor = None
 
     def dump_config(self):
-        dump_config(self.to_dict(), self.config_path)
+        """save configuration to temporary json file"""
+        dump_config(self.to_dict(), self._config_path)
 
     def to_dict(self):
-        return {"db_name": self.name,
-                "db_path": self.path}
+        """dictionary representation of database configuration"""
+        return {"db_name": self._db_path.name,
+                "db_path": str(self._db_path.resolve())}
 
     def commit_config(self):
+        """save database configuration to itself"""
         pass

@@ -14,12 +14,12 @@ class TestSqlInit:
         """
 
         db: Database = DatabaseFactory.database(db_type='sqlite',
-                                                db_name='test_sql',
-                                                db_path='.')
+                                                db_path='./test_sql.db')
+
         db.initialise()
         db_full_path = PurePath(os.path.join('.', 'test_sql.db'))
         assert os.path.exists(db_full_path)
-        assert db.complete_path == db_full_path
+        assert db.path == db_full_path
         assert os.path.exists(default_cf_path())
 
         try:
